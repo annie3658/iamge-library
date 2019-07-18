@@ -1,33 +1,38 @@
 package com.image.library.application.controller;
 
 
-import com.image.library.application.entity.Cover;
+import com.image.library.application.dto.CoverDTO;
 import com.image.library.application.service.CoverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/covers")
 public class CoverController {
 
-    @Autowired
     private CoverService coverService;
 
+    @Autowired
+    public CoverController(CoverService coverService) {
+        this.coverService = coverService;
+    }
+
     @GetMapping("/all")
-    public List<Cover> getAllCovers(){
+    public List<CoverDTO> getAllCovers(){
         return coverService.getAll();
     }
 
     @PutMapping
-    public void insert(@RequestBody Cover cover){
-        coverService.insert(cover);
+    public CoverDTO insert(@Valid @RequestBody CoverDTO cover){
+        return coverService.insert(cover);
     }
 
     @PostMapping
-    public void update (@RequestBody Cover cover){
-        coverService.update(cover);
+    public CoverDTO update (@Valid @RequestBody CoverDTO cover){
+        return coverService.update(cover);
     }
 
     @DeleteMapping("/{id}")
@@ -36,7 +41,7 @@ public class CoverController {
     }
 
     @GetMapping("/cover/{bookTitle}")
-    public Cover getCoverByBookTitle(@PathVariable("bookTitle") String title){
-        return coverService.findByBookTitle(title);
+    public CoverDTO getCoverByBookTitle(@PathVariable("bookTitle") String title){
+        return coverService.findCoverByBookTitle(title);
     }
 }

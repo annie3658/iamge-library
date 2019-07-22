@@ -6,19 +6,25 @@ import com.image.library.application.entity.Cover;
 public class DTOUtil {
 
     public Cover dtoToCover(CoverDTO coverDTO){
-        Cover cover = new Cover();
-        cover.setId(coverDTO.getId());
-        cover.setBookTitle(coverDTO.getBookTitle());
-        cover.setLink(coverDTO.getLink());
+        if(coverDTO != null) {
+            Cover cover = new Cover();
+            cover.setId(coverDTO.getId());
+            cover.setBookTitle(coverDTO.getBookTitle());
+            cover.setLink(coverDTO.getLink());
 
-        return cover;
+            return cover;
+        }
+        return null;
     }
 
     public CoverDTO coverToDTO(Cover cover){
-        CoverDTO coverDTO = new CoverDTO.Builder(cover.getId())
-                .withBookTitle(cover.getBookTitle())
-                .withLink(cover.getLink())
-                .build();
-        return coverDTO;
+        if(cover != null) {
+            CoverDTO coverDTO = new CoverDTO.Builder(cover.getId())
+                    .withBookTitle(cover.getBookTitle())
+                    .withLink(cover.getLink())
+                    .build();
+            return coverDTO;
+        }
+        return null;
     }
 }

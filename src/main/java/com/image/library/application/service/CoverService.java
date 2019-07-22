@@ -3,7 +3,6 @@ package com.image.library.application.service;
 import ch.qos.logback.classic.Logger;
 import com.image.library.application.dto.CoverDTO;
 import com.image.library.application.entity.Cover;
-import com.image.library.application.exception.CoverNotFoundException;
 import com.image.library.application.repository.CoverRepository;
 import com.image.library.application.utils.DTOUtil;
 import org.slf4j.LoggerFactory;
@@ -32,8 +31,8 @@ public class CoverService {
         if (cover.isPresent()) {
             return cover.get();
         }
-        LOGGER.error("The Cover with id {} was not found", id);
-        throw new CoverNotFoundException(id);
+        LOGGER.warn("The Cover with id {} was not found", id);
+        return null;
     }
 
     public CoverDTO findCoverById(String id){
@@ -43,8 +42,7 @@ public class CoverService {
     public CoverDTO findCoverByBookTitle(String bookTitle){
         Cover cover = coverRepository.findByBookTitle(bookTitle);
         if(cover == null ){
-            LOGGER.error("The Cover for the book {} was not found",  bookTitle);
-            throw new CoverNotFoundException(bookTitle);
+            LOGGER.warn("The Cover for the book {} was not found",  bookTitle);
         }
         return dtoUtil.coverToDTO(cover);
     }
@@ -74,8 +72,4 @@ public class CoverService {
         coverRepository.deleteById(id);
 
     }
-
-
-
-
 }

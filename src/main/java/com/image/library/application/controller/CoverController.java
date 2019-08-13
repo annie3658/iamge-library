@@ -20,9 +20,14 @@ public class CoverController {
         this.coverService = coverService;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<CoverDTO> getAllCovers(){
         return coverService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public CoverDTO getCoverById(@PathVariable("id") String id){
+        return coverService.findCoverById(id);
     }
 
     @PutMapping
